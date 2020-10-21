@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:EncrypTON/decode.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:cryptography/cryptography.dart';
@@ -187,7 +188,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: EdgeInsets.symmetric(
                           horizontal: size.width * 5 / 100),
                       child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => DecodeScreen(),
+                            ),
+                          );
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           width: double.infinity,
