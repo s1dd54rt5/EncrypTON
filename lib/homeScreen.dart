@@ -4,7 +4,7 @@ import 'package:EncrypTON/decode.dart';
 import 'package:EncrypTON/decodeown.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:cryptography/cryptography.dart';
+import 'globals.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -26,12 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return text;
   }
-
-  final cipher = chacha20Poly1305Aead;
-
-  final secretKey = SecretKey.randomBytes(32);
-
-  final nonce = Nonce.randomBytes(12);
 
   List encrypted;
   @override
@@ -93,19 +87,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   final message = utf8.encode(filetext);
 
                   // Encrypt
-                  encrypted = await cipher.encrypt(
+                  encrypted = await globals.cipher.encrypt(
                     message,
-                    secretKey: secretKey,
-                    nonce: nonce,
+                    secretKey: globals.secretKey,
+                    nonce: globals.nonce,
                   );
 
                   print('Encrypted: $encrypted');
 
                   // Decrypt
-                  final decrypted = await cipher.decrypt(
+                  final decrypted = await globals.cipher.decrypt(
                     encrypted,
-                    secretKey: secretKey,
-                    nonce: nonce,
+                    secretKey: globals.secretKey,
+                    nonce: globals.nonce,
                   );
                   decodedmessage = utf8.decode(decrypted);
                   print('Decrypted: $decrypted');

@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:EncrypTON/finalScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'globals.dart' as globals;
 
 class DecodeOwnScreen extends StatefulWidget {
   @override
@@ -8,8 +12,29 @@ class DecodeOwnScreen extends StatefulWidget {
 
 class _DecodeOwnScreenState extends State<DecodeOwnScreen> {
   @override
-  List numbers = [];
+  List<int> numbers = [
+    180,
+    165,
+    233,
+    8,
+    161,
+    101,
+    175,
+    119,
+    8,
+    30,
+    118,
+    255,
+    229,
+    134,
+    231,
+    182,
+    246,
+    100,
+  ];
+  List encrypted;
   String currentNumber = '';
+  String decodedmessage = '';
   TextEditingController number = TextEditingController();
   bool isEmpty = true;
   Widget build(BuildContext context) {
@@ -163,6 +188,55 @@ class _DecodeOwnScreenState extends State<DecodeOwnScreen> {
                     fontSize: MediaQuery.of(context).size.height * 2 / 100,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).accentColor,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: size.height * 2 / 100,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.pink,
+              borderRadius: BorderRadius.all(
+                Radius.circular(size.width * 2 / 100),
+              ),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: size.width * 5 / 100),
+            child: FlatButton(
+              onPressed: () async {
+                encrypted = await globals.cipher.encrypt(
+                  numbers,
+                  secretKey: globals.secretKey,
+                  nonce: globals.nonce,
+                );
+
+                // Decrypt
+                final decrypted = await globals.cipher.decrypt(
+                  encrypted,
+                  secretKey: globals.secretKey,
+                  nonce: globals.nonce,
+                );
+                decodedmessage = utf8.decode(decrypted);
+                print(decodedmessage);
+                // Navigator.of(context).push(
+                //   MaterialPageRoute(
+                //     builder: (context) => FinalScreen(
+                //       message: decodedmessage,
+                //     ),
+                //   ),
+                // );
+              },
+              child: Container(
+                alignment: Alignment.center,
+                width: double.infinity,
+                child: Text(
+                  "Decode",
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w200,
                   ),
                 ),
               ),
