@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   PlatformFile file;
   String filetext;
+  String decodedmessage;
   bool fileUploaded = false;
   Future<String> _read(String path) async {
     String text;
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   secretKey: secretKey,
                   nonce: nonce,
                 );
-                print(utf8.decode(decrypted));
+                decodedmessage = utf8.decode(decrypted);
                 print('Decrypted: $decrypted');
               },
               child: Container(
@@ -191,7 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => DecodeScreen(),
+                              builder: (context) => DecodeScreen(
+                                message: decodedmessage,
+                              ),
                             ),
                           );
                         },
